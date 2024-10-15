@@ -1,0 +1,30 @@
+# First pipeline,  Task 2,  step 2
+# Pipeline consists of three jobs:
+# One for compiling source code
+# Second for testing source code
+# Third for packing the code
+
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+    }
+    stages {
+        stage('Compile') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'mvn package'
+            }
+        } 
+    }
+}
+
