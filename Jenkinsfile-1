@@ -1,8 +1,8 @@
-# First pipeline,  Task 2,  step 2
-# Pipeline consists of three jobs:
-# One for compiling source code
-# Second for testing source code
-# Third for packing the code
+/* First pipeline,  Task 2,  step 2
+ Pipeline consists of three jobs:
+ One for compiling source code
+ Second for testing source code
+ Third for packing the code *\
 
 pipeline {
     agent any
