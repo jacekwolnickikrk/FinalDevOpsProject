@@ -1,0 +1,48 @@
+---
+- name: Docker deploy
+  hosts: Docker 
+  become: true
+  tasks:
+  - name: Log into DockerHub
+    community.docker.docker_login:
+      username: jacekcracow
+      password: "!a5eSv$E5Wc?M7R"
+      reauthorize: true
+      debug: true
+
+        #  - name: Stop old Docker container if it exists
+        # community.docker.docker_container:
+        # name: myfirstapp
+        # state: absent
+
+  # - name: Remove Docker image if it exists
+  #   community.docker.docker_image:
+  #     name: app
+  #     tag: v1
+  #     state: absent
+
+  - name: Build Docker image
+    community.docker.docker_image:
+      name: jacekcracow/abctechnologies_with_ansible
+      tag: v1
+      source: build
+      push: true
+      build:
+        path: /home/jacek/IGP
+        dockerfile: Dockerfile
+
+  - name: Create and start Docker container
+    community.docker.docker_container:
+      name: myfirstapp
+      image: jacekcracow/abctechnologies_with_ansible:v1
+      state: started
+      ports:
+        - "8071:8080"
+
+
+  # - name: Log out of DockerHub
+  #   community.docker.docker_login:
+  #     state: absent
+
+
+
