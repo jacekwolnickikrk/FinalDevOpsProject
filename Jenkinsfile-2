@@ -24,7 +24,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 sh docker build -t "jacekcracow/abctechnologies-latest:${BUILD_NUMBER} . 
-            "}
+            }"
         }
         stage('Docker Push') {
             steps {
