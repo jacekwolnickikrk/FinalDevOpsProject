@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Docker Push') {
             steps {
-                sh 'docker push "jacekcracow/abctechnologies-latest:${BUILD_NUMBER} .'
+                sh 'docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER} .'
             }
         }
     }
