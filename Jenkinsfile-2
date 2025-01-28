@@ -5,6 +5,9 @@ pipeline {
     tools {
         maven 'maven'
     }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
+    }
     stages {
         stage('Compile') {
             steps {
