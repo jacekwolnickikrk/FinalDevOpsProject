@@ -31,7 +31,7 @@ pipeline {
         }
         stage('Docker Login') {
             steps {
-                sh 'docker login -u "${DOCKERHUB_CREDENTIALS.username}" -p "${DOCKERHUB_CREDENTIALS.password}"'
+                sh 'docker login -u "${DOCKERHUB_CREDENTIALS.username}" --password-stdin'
             }
         }
         stage('Docker Push') {
