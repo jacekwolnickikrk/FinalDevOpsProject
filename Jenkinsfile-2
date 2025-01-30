@@ -39,6 +39,11 @@ pipeline {
                 sh 'docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER}'
             }
         }
+        stage('Docker Run') {
+            steps {
+                sh "docker run -d -p 8090:8090 jacekcracow/abctechnologies-latest:${BUILD_NUMBER}"
+            }
+        }
     }
 post {
   always {
