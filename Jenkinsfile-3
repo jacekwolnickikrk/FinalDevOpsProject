@@ -32,7 +32,7 @@ pipeline {
                         echo "Docker Password: $DOCKER_PASSWORD" // Verify (Masked in Jenkins console)
 
                         # Run the Ansible playbook, passing the variables
-                        ansible-playbook your_playbook_name.yml -e "docker_username=$DOCKER_USERNAME docker_password=$DOCKER_PASSWORD build_number=$BUILD_NUMBER"
+                        ansible-playbook docker_deploy2.yml -e "docker_username=$DOCKER_USERNAME docker_password=$DOCKER_PASSWORD build_number=$BUILD_NUMBER"
                     '''
                 }
             }
