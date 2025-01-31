@@ -4,24 +4,24 @@
   tasks:
     - name: Build Docker Image
       docker_image:
-        name: jacekcracow/abctechnologies-latest:{{ lookup('env', 'BUILD_NUMBER') }}
+        name: jacekcracow/abctechnologies-latest:{{ build_number }}  # Use the passed variable
         path: .
         buildargs: {}
 
     - name: Login to Docker Hub
       docker_login:
-        username: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_USR') }}"
-        password: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_PSW') }}"
+        username: "{{ docker_username }}"  # Use the passed variable
+        password: "{{ docker_password }}"  # Use the passed variable
 
     - name: Push Docker Image
       docker_image_push:
-        name: jacekcracow/abctechnologies-latest:{{ lookup('env', 'BUILD_NUMBER') }}
-        tag: latest 
+        name: jacekcracow/abctechnologies-latest:{{ build_number }} # Use the passed variable
+        tag: latest
 
     - name: Run Docker Container
       docker_container:
         name: abctechnologies-container
-        image: jacekcracow/abctechnologies-latest:{{ lookup('env', 'BUILD_NUMBER') }}
+        image: jacekcracow/abctechnologies-latest:{{ build_number }} # Use the passed variable
         ports:
           - "8090:8080"
         detach: yes
