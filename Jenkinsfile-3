@@ -1,32 +1,32 @@
 pipeline {
     agent any
     tools {
-        maven 'maven'
+        maven 'maven' // If you need Maven
     }
     stages {
         stage('Compile') {
             steps {
-                sh 'mvn compile'
+                sh 'mvn compile' // If you need Maven
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn test' // If you need Maven
             }
         }
         stage('Deploy') {
             steps {
-                sh 'mvn package'
+                sh 'mvn package' // If you need Maven
             }
         }
         stage('Build and Deploy') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh '''
-                        echo 'Docker Username: ${DOCKER_USERNAME}' // Verify (Masked in Jenkins console)
-                        echo 'Docker Password: ${DOCKER_PASSWORD}' // Verify (Masked in Jenkins console)
+                        echo "Docker Username: ${DOCKER_USERNAME}" // Verify (Masked in Jenkins console)
+                        echo "Docker Password: ${DOCKER_PASSWORD}" // Verify (Masked in Jenkins console)
 
-                        ansible-playbook docker_deploy2.yml -e 'docker_username=${DOCKER_USERNAME} docker_password=${DOCKER_PASSWORD} build_number=${BUILD_NUMBER}'
+                        ansible-playbook docker_deploy2.yml -e "docker_username=${DOCKER_USERNAME} docker_password=${DOCKER_PASSWORD} build_number=${BUILD_NUMBER}"
                     '''
                 }
             }
