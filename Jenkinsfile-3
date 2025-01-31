@@ -25,7 +25,7 @@ pipeline {
                     sh 'echo "Docker Username: ${DOCKER_USERNAME}"' // Verify (Masked in Jenkins console)
                     sh 'echo "Docker Password: ${DOCKER_PASSWORD}"' // Verify (Masked in Jenkins console)
 
-                    sh 'ansible-playbook docker_deploy2.yml -e "build_number=${BUILD_NUMBER}"' # Only build_number here
+                    sh 'ansible-playbook docker_deploy2.yml -e "build_number=${BUILD_NUMBER}"'
                     }
             }
         }
