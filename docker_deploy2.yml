@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Build Docker Image
+      docker_image:
+        name: jacekcracow/abctechnologies-latest:{{ lookup('env', 'BUILD_NUMBER') }}
+        path: .
+        buildargs: {}
+
+    - name: Login to Docker Hub
+      docker_login:
+        username: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_USR') }}"
+        password: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_PSW') }}"
+
+    - name: Push Docker Image
+      docker_image_push:
+        name: jacekcracow/abctechnologies-latest:{{ lookup('env', 'BUILD_NUMBER') }}
+        tag: latest 
+
+    - name: Run Docker Container
+      docker_container:
+        name: abctechnologies-container
+        image: jacekcracow/abctechnologies-latest:{{ lookup('env', 'BUILD_NUMBER') }}
+        ports:
+          - "8090:8080"
+        detach: yes
+        state: started
+
+    - name: Logout from Docker Hub
+      docker_logout:
+...
