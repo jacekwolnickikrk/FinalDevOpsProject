@@ -1,12 +1,7 @@
-/* Second pipeline, Task 3, step 1 */
-
 pipeline {
     agent any
     tools {
         maven 'maven'
-    }
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
     }
     stages {
         stage('Compile') {
@@ -26,12 +21,11 @@ pipeline {
         }
         stage('Build and Deploy') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh '''
-                        echo "Docker Username: $DOCKER_USERNAME" // Verify
+                        echo "Docker Username: $DOCKER_USERNAME" // Verify (Masked in Jenkins console)
                         echo "Docker Password: $DOCKER_PASSWORD" // Verify (Masked in Jenkins console)
 
-                        # Run the Ansible playbook, passing the variables
                         ansible-playbook docker_deploy2.yml -e "docker_username=$DOCKER_USERNAME docker_password=$DOCKER_PASSWORD build_number=$BUILD_NUMBER"
                     '''
                 }
