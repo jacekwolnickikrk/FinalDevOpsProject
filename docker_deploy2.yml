@@ -4,24 +4,24 @@
   tasks:
     - name: Build Docker Image
       docker_image:
-        name: jacekcracow/abctechnologies-latest:{{ build_number }}  # Use the passed variable
+        name: jacekcracow/abctechnologies-latest:{{ build_number }}
         path: .
         buildargs: {}
 
     - name: Login to Docker Hub
       docker_login:
-        username: "{{ docker_username }}"  # Use the passed variable
-        password: "{{ docker_password }}"  # Use the passed variable
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
 
     - name: Push Docker Image
       docker_image_push:
-        name: jacekcracow/abctechnologies-latest:{{ build_number }} # Use the passed variable
+        name: jacekcracow/abctechnologies-latest:{{ build_number }}
         tag: latest
 
     - name: Run Docker Container
       docker_container:
         name: abctechnologies-container
-        image: jacekcracow/abctechnologies-latest:{{ build_number }} # Use the passed variable
+        image: jacekcracow/abctechnologies-latest:{{ build_number }}
         ports:
           - "8090:8080"
         detach: yes
@@ -29,4 +29,3 @@
 
     - name: Logout from Docker Hub
       docker_logout:
-...
