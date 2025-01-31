@@ -8,10 +8,10 @@
         path: .
         buildargs: {}
 
-    - name: Login to Docker Hub
+    - name: Login to Docker Hub (using environment variables)
       docker_login:
-        username: "{{ docker_username }}"
-        password: "{{ docker_password }}"
+        username: "{{ lookup('env', 'DOCKER_USERNAME') }}"
+        password: "{{ lookup('env', 'DOCKER_PASSWORD') }}"
 
     - name: Push Docker Image
       docker_image_push:
