@@ -1,4 +1,4 @@
-/* Second pipeline,  Task 3,  step 1 */
+/* Second pipeline, Task 3, step 1 */
 
 pipeline {
     agent any
@@ -36,10 +36,11 @@ pipeline {
                     '''
                 }
             }
-post {
-  always {
-    sh 'docker logout'
+        }
     }
-  }
-}
+    post {
+        always {
+            sh 'docker logout'
+        }
+    }
 }
