@@ -38,11 +38,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            steps {
-                sh '' //  Remove this line if you have no 'always' steps.
-            }
-        }
-    }
 }
