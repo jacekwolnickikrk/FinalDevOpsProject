@@ -31,7 +31,7 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 ansiblePlaybook(
-                    playbook: 'docker_build_and_deploy2.yml', // Path relative to workspace root
+                    playbook: 'https://github.com/jacekwolnickikrk/FinalDevOpsProject/blob/main/docker_deploy2.yml', // Path relative to workspace root
                     inventory: 'inventory', // Path relative to workspace root
                     extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
                 )
