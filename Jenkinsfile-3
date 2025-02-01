@@ -1,42 +1,41 @@
 pipeline {
-    agent any
-    tools {
-        maven 'maven'
-        ansible 'ansible' 
+  agent any
+  tools {
+    maven 'maven'
+    ansible 'ansible'
+  }
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
     }
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('Compile') {
-            steps {
-                sh 'mvn compile'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-        stage('Build and publish with Ansible') {
-            steps {
-                script {
-                    sshagent(credentials: ['ansible-ssh-key']) {
-                        ansiblePlaybook playbook: 'build-and-publish.yaml', 
-                        inventory: '/etc/ansible/hosts',
-                        credentialsId: 'DockerCredentials',
-                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}'
-      -e 'docker_password=${env.DOCKER_PASSWORD}'"
-                    }
-                }
-            }
-        }
+    stage('Compile') {
+      steps {
+        sh 'mvn compile'
+      }
     }
+    stage('Test') {
+      steps {
+        sh 'mvn test'
+      }
+    }
+    stage('Package') {
+      steps {
+        sh 'mvn package'
+      }
+    }
+    stage('Build and publish with Ansible') {
+      steps {
+        script {
+          sshagent(credentials: ['ansible-ssh-key']) {
+            ansiblePlaybook playbook: 'build-and-publish.yaml',
+              inventory: '/etc/ansible/hosts',
+              credentialsId: 'DockerCredentials',
+              extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'"  // Added closing quotation mark
+          }
+        }
+      }
+    }
+  }
 }
