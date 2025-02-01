@@ -19,20 +19,14 @@ pipeline {
                 sh 'mvn package' // If you need Maven
             }
         }
-        stage('Build and Deploy') {
+        stage('Build and Deploy') { // Only one block here
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    echo "Docker Username: ${DOCKER_USERNAME}" // Verify (Masked in Jenkins console)
-                    echo "Docker Password: ${DOCKER_PASSWORD}" // Verify (Masked in Jenkins console)
-
-                    ansiblePlaybook(
-                        playbook: 'docker_deploy2.yml',
-                        extraVars: [
-                            build_number: BUILD_NUMBER,
-                            docker_username: DOCKER_USERNAME,  // Pass directly to Ansible plugin
-                            docker_password: DOCKER_PASSWORD   // Pass directly to Ansible plugin
-                        ]
-                    )
+                    docker.image('your-ansible-image').inside {  // Replace your-ansible-image
+                        sh '''
+                            ansible-playbook docker_deploy2.yml -e "build_number=${BUILD_NUMBER} docker_username=${DOCKER_USERNAME} docker_password=${DOCKER_PASSWORD}"
+                        '''
+                    }
                 }
             }
         }
