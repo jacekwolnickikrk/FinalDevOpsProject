@@ -30,7 +30,6 @@ pipeline {
         }
         stage('Run Ansible Playbook') {
             steps {
-                // Option 1: Using the Ansible plugin (Recommended)
                 ansiblePlaybook(
                     playbook: 'docker_build_and_deploy2.yml', // Path relative to workspace root
                     inventory: 'inventory', // Path relative to workspace root
