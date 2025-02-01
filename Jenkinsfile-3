@@ -19,10 +19,10 @@ pipeline {
                 sh 'mvn package' // If you need Maven
             }
         }
-        stage('Build and Deploy') { // Only one block here
+        stage('Build and Deploy') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    docker.image('your-ansible-image').inside {  // Replace your-ansible-image
+                    docker.image('your-actual-ansible-image').inside {  // ***REPLACE THIS***
                         sh '''
                             ansible-playbook docker_deploy2.yml -e "build_number=${BUILD_NUMBER} docker_username=${DOCKER_USERNAME} docker_password=${DOCKER_PASSWORD}"
                         '''
