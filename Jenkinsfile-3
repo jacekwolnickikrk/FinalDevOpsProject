@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-        ansible 'ansible'  // Add Ansible installation
+        ansible 'ansible' // Add Ansible tool if using the Ansible plugin
     }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
@@ -25,17 +25,14 @@ pipeline {
         }
         stage('Run Ansible Playbook') {
             steps {
-                ansiblePlaybook(
-                    playbook: 'docker_build_and_deploy2.yml',  // Path to the playbook
-                    inventory: 'localhost,',  // Use localhost since we're running locally
-                    extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
-                )
+                sh '''
+                    ansible-playbook docker_build_and_deploy2.yml -i inventory --extra-vars "BUILD_NUMBER=${BUILD_NUMBER}"
+                '''
             }
         }
     }
     post {
         always {
-            // Optionally, you can ensure docker logout here if not handled in Ansible
             sh 'docker logout'
         }
     }
