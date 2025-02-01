@@ -1,31 +1,40 @@
 ---
-- hosts: localhost
-  become: true
+- hosts: localhost  # Or specify your target hosts
+  become: true # If docker commands require root privileges
+  vars:
+    docker_image_name: jacekcracow/abctechnologies-latest
+    docker_tag: "{{ lookup('env', 'BUILD_NUMBER') }}" # Inject BUILD_NUMBER from Jenkins
+    docker_username: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_USR') }}" # Inject from Jenkins
+    docker_password: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_PSW') }}" # Inject from Jenkins
+
   tasks:
-    - name: Build Docker Image
+    - name: Build Docker image
       docker_image:
-        name: jacekcracow/abctechnologies-latest:{{ build_number }}
-        path: .
-        buildargs: {}
+        name: "{{ docker_image_name }}"
+        tag: "{{ docker_tag }}"
+        build: . # Assuming Dockerfile is in the current directory
+        source: build # Important for Jenkins to know what to archive.
 
-    - name: Login to Docker Hub (using environment variables)
+    - name: Docker login
       docker_login:
-        username: "{{ lookup('env', 'DOCKER_USERNAME') }}"
-        password: "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
 
-    - name: Push Docker Image
-      docker_image_push:
-        name: jacekcracow/abctechnologies-latest:{{ build_number }}
-        tag: latest
+    - name: Push Docker image
+      docker_image:
+        name: "{{ docker_image_name }}"
+        tag: "{{ docker_tag }}"
+        repository: "{{ docker_image_name }}"
+        push: yes
 
-    - name: Run Docker Container
+    - name: Run Docker container
       docker_container:
-        name: abctechnologies-container
-        image: jacekcracow/abctechnologies-latest:{{ build_number }}
+        name: abctechnologies-container # Give the container a name
+        image: "{{ docker_image_name }}:{{ docker_tag }}"
         ports:
           - "8090:8080"
-        detach: yes
-        state: started
+        detach: yes # Run in detached mode
+        remove: yes # Remove container when stopped
 
-    - name: Logout from Docker Hub
-      docker_logout:
+    - name: Docker logout
+      docker_logout: {} # No additional parameters needed
