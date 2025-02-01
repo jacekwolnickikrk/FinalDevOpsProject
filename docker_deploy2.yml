@@ -37,4 +37,4 @@
           - "{{ host_port }}:{{ container_port }}"
 
     - name: Logout from Docker
-      docker_logout:
+      command: docker logout
