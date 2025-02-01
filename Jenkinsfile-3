@@ -2,12 +2,17 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-        ansible 'ansible' // Add Ansible tool if using the Ansible plugin
+        ansible 'ansible' // If using the Ansible plugin (recommended)
     }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
     }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm // Or your specific SCM configuration
+            }
+        }
         stage('Compile') {
             steps {
                 sh 'mvn compile'
@@ -25,14 +30,16 @@ pipeline {
         }
         stage('Run Ansible Playbook') {
             steps {
-                ansible-playbook(
-                    playbook: 'docker_build_and_deploy2.yml',
-                    inventory: 'inventory',
+                // Option 1: Using the Ansible plugin (Recommended)
+                ansiblePlaybook(
+                    playbook: 'docker_build_and_deploy2.yml', // Path relative to workspace root
+                    inventory: 'inventory', // Path relative to workspace root
                     extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
                 )
             }
         }
-        post {
+    }
+    post {
         always {
             sh 'docker logout'
         }
