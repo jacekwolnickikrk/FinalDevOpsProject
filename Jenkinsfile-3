@@ -2,15 +2,17 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-        ansible 'ansible' // Ensure Ansible plugin is configured correctly in Jenkins
+        ansible 'ansible' 
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker') // Jenkins credential ID
+        DOCKERHUB_CREDENTIALS_USR = "${DOCKERHUB_CREDENTIALS_USR}" // Access username from credentials
+        DOCKERHUB_CREDENTIALS_PSW = "${DOCKERHUB_CREDENTIALS_PSW}" // Access password from credentials
     }
     stages {
         stage('Checkout') {
             steps {
-                checkout scm // Or your Git configuration
+                checkout scm
             }
         }
         stage('Compile') {
@@ -23,23 +25,32 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Deploy') {
+        stage('Package') { // More appropriate name than 'Deploy' for this stage
             steps {
                 sh 'mvn package'
             }
         }
         stage('Run Ansible Playbook') {
             steps {
-                ansiblePlaybook(
-                    playbook: 'docker_deploy2.yml', // Path relative to workspace root
-                    extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
-                )
+                script {
+                    // Extract credentials
+                    def credentials = credentials('jacek-docker')
+                    env.DOCKERHUB_CREDENTIALS_USR = credentials.username
+                    env.DOCKERHUB_CREDENTIALS_PSW = credentials.password
+
+                    ansiblePlaybook(
+                        playbook: 'docker_deploy3.yml', // Use the correct playbook name
+                        extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
+                    )
+                }
             }
         }
     }
     post {
         always {
-            sh 'docker logout'
+            // This logout might not be necessary on the Jenkins agent itself.
+            // Logout happens on the Docker host in the playbook.
+            // sh 'docker logout'  # Consider removing this line
         }
     }
 }
