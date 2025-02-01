@@ -2,17 +2,12 @@ pipeline {
     agent any
     tools {
         maven 'maven'
+        ansible 'ansible'  // Add Ansible installation
     }
     environment {
-        DOCKERHUB_CREDENTIALS_USR = credentials('jacek-docker-user')
-        DOCKERHUB_CREDENTIALS_PSW = credentials('jacek-docker-password')
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
     }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm // Or specify your SCM configuration
-            }
-        }
         stage('Compile') {
             steps {
                 sh 'mvn compile'
@@ -28,23 +23,19 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage('Ansible Playbook Execution') {
+        stage('Run Ansible Playbook') {
             steps {
-                sh '''
-                    # Install Ansible if not already present in your Jenkins agent
-                    # For Debian/Ubuntu based agents:
-                    # sudo apt-get update && sudo apt-get install -y ansible
-
-                    # For RedHat based agents:
-                    # sudo yum update -y && sudo yum install -y ansible
-
-                    ansible-playbook your-ansible-playbook.yml -i inventory --extra-vars "BUILD_NUMBER=${BUILD_NUMBER}"
-                '''
+                ansiblePlaybook(
+                    playbook: 'docker_build_and_deploy.yml',  // Path to the playbook
+                    inventory: 'localhost,',  // Use localhost since we're running locally
+                    extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
+                )
             }
         }
     }
     post {
         always {
+            // Optionally, you can ensure docker logout here if not handled in Ansible
             sh 'docker logout'
         }
     }
