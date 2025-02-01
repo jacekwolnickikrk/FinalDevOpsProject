@@ -28,7 +28,7 @@ pipeline {
                 ansible-playbook(
                     playbook: 'docker_build_and_deploy2.yml',
                     inventory: 'inventory',
-                    extras: "-e "BUILD_NUMBER=${BUILD_NUMBER}"
+                    extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
                 )
             }
         }
