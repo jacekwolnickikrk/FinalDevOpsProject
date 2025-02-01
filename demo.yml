@@ -1,6 +1,6 @@
 ---
 - name: Build and Publish Docker Image
-  hosts: web1
+  hosts: knode1
   gather_facts: false
 
   tasks:
