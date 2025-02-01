@@ -28,11 +28,12 @@ pipeline {
     stage('Build and publish with Ansible') {
       steps {
         script {
-          sshagent(credentials: ['ansible-ssh-key']) {
-            ansiblePlaybook playbook: 'build-and-publish.yaml',
-              inventory: '/etc/ansible/hosts',
-              credentialsId: 'DockerCredentials',
-              extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'"  // Added closing quotation mark
+          withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh """
+              ansible-playbook playbook: 'build-and-publish.yaml'
+                inventory: '/etc/ansible/hosts'
+                extra_vars: "-e 'docker_username=${USERNAME}' -e 'docker_password=${PASSWORD}'"
+            """
           }
         }
       }
