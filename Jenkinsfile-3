@@ -4,11 +4,6 @@ pipeline {
         maven 'maven'
         ansible 'ansible' 
     }
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('jacek-docker') // Jenkins credential ID
-        DOCKERHUB_CREDENTIALS_USR = "${DOCKERHUB_CREDENTIALS_USR}" // Access username from credentials
-        DOCKERHUB_CREDENTIALS_PSW = "${DOCKERHUB_CREDENTIALS_PSW}" // Access password from credentials
-    }
     stages {
         stage('Checkout') {
             steps {
@@ -25,7 +20,7 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Package') { // More appropriate name than 'Deploy' for this stage
+        stage('Package') {
             steps {
                 sh 'mvn package'
             }
@@ -33,14 +28,11 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    // Extract credentials
                     def credentials = credentials('jacek-docker')
-                    env.DOCKERHUB_CREDENTIALS_USR = credentials.username
-                    env.DOCKERHUB_CREDENTIALS_PSW = credentials.password
 
                     ansiblePlaybook(
-                        playbook: 'docker_deploy3.yml', // Use the correct playbook name
-                        extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
+                        playbook: 'docker_deploy3.yml',
+                        extras: "-e BUILD_NUMBER=${BUILD_NUMBER} -e DOCKERHUB_CREDENTIALS_USR=${credentials.username} -e DOCKERHUB_CREDENTIALS_PSW=${credentials.password}"
                     )
                 }
             }
@@ -48,9 +40,9 @@ pipeline {
     }
     post {
         always {
-            // This logout might not be necessary on the Jenkins agent itself.
-            // Logout happens on the Docker host in the playbook.
-            // sh 'docker logout'  # Consider removing this line
+            steps {
+                sh '' // Or remove the always block entirely if not needed
+            }
         }
     }
 }
