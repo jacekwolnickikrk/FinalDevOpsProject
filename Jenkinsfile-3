@@ -26,14 +26,13 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 ansible-playbook(
-                    playbook: 'docker_build_and_deploy2.yml'
-                    inventory: 'hosts'
+                    playbook: 'docker_build_and_deploy2.yml',
+                    inventory: 'inventory',
                     extras: "-e "BUILD_NUMBER=${BUILD_NUMBER}"
-                '''
+                )
             }
         }
-    }
-    post {
+        post {
         always {
             sh 'docker logout'
         }
