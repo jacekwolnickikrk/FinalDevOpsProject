@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         maven 'maven'
-        ansible 'ansible' // If using the Ansible plugin (recommended)
+        ansible 'ansible' // Ensure Ansible plugin is configured correctly in Jenkins
     }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm // Or your specific SCM configuration
+                checkout scm // Or your Git configuration
             }
         }
         stage('Compile') {
@@ -31,7 +31,7 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 ansiblePlaybook(
-                    playbook: 'https://github.com/jacekwolnickikrk/FinalDevOpsProject/blob/main/docker_deploy2.yml', // Path relative to workspace root
+                    playbook: 'docker_deploy2.yml', // Path relative to workspace root
                     extras: "-e BUILD_NUMBER=${BUILD_NUMBER}"
                 )
             }
