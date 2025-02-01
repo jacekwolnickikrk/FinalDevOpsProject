@@ -1,33 +1,45 @@
 pipeline {
     agent any
     tools {
-        maven 'maven' // If you need Maven
+        maven 'maven'
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS_USR = credentials('jacek-docker-user')
+        DOCKERHUB_CREDENTIALS_PSW = credentials('jacek-docker-password')
     }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm // Or specify your SCM configuration
+            }
+        }
         stage('Compile') {
             steps {
-                sh 'mvn compile' // If you need Maven
+                sh 'mvn compile'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test' // If you need Maven
+                sh 'mvn test'
             }
         }
         stage('Deploy') {
             steps {
-                sh 'mvn package' // If you need Maven
+                sh 'mvn package'
             }
         }
-        stage('Build and Deploy') {
+        stage('Ansible Playbook Execution') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    docker.image('your-actual-ansible-image').inside {  // ***REPLACE THIS***
-                        sh '''
-                            ansible-playbook docker_deploy2.yml -e "build_number=${BUILD_NUMBER} docker_username=${DOCKER_USERNAME} docker_password=${DOCKER_PASSWORD}"
-                        '''
-                    }
-                }
+                sh '''
+                    # Install Ansible if not already present in your Jenkins agent
+                    # For Debian/Ubuntu based agents:
+                    # sudo apt-get update && sudo apt-get install -y ansible
+
+                    # For RedHat based agents:
+                    # sudo yum update -y && sudo yum install -y ansible
+
+                    ansible-playbook your-ansible-playbook.yml -i inventory --extra-vars "BUILD_NUMBER=${BUILD_NUMBER}"
+                '''
             }
         }
     }
