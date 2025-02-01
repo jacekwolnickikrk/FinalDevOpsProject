@@ -25,15 +25,16 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage('Run Ansible Playbook') {
+        stage('Build and publish with Ansible') {
             steps {
                 script {
-                    def credentials = credentials('jacek-docker')
-
-                    ansiblePlaybook(
-                        playbook: 'docker_deploy3.yml',
-                        extras: "-e BUILD_NUMBER=${BUILD_NUMBER} -e DOCKERHUB_CREDENTIALS_USR=${credentials.username} -e DOCKERHUB_CREDENTIALS_PSW=${credentials.password}"
-                    )
+                    sshagent(credentials: ['ansible-ssh-key']) {
+                        ansiblePlaybook playbook: 'build-and-publish.yaml', 
+                        inventory: '/etc/ansible/hosts',
+                        credentialsId: 'DockerCredentials',
+                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}'
+      -e 'docker_password=${env.DOCKER_PASSWORD}'"
+                    }
                 }
             }
         }
