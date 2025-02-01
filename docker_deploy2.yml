@@ -38,4 +38,3 @@
 
     - name: Logout from Docker
       docker_logout:
-        # Docker logout does not require any arguments
