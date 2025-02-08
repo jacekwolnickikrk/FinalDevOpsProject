@@ -24,15 +24,19 @@ pipeline {
         }
         stage('Docker Login') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh "docker login -u ${DOCKER_USERNAME} --password-stdin <<< ${DOCKER_PASSWORD}"
+                }
             }
         }
         stage('Build and publish with Ansible') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        Playbook: 'docker_deploy4.yaml',
-                        inventory: '/etc/ansible/hosts'
+                        ansiblePlaybook([
+                            playbook: 'docker_deploy4.yaml',
+                            inventory: '/etc/ansible/hosts'
+                        ])
                     }
                 }
             }
