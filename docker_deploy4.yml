@@ -5,8 +5,8 @@
   vars:
     docker_image_name: "jacekcracow/abctechnologies-latest-with-ansible"
     build_number: "{{ lookup('env', 'BUILD_NUMBER') }}"
-    dockerhub_user: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_USR') }}"
-    dockerhub_password: "{{ lookup('env', 'DOCKERHUB_CREDENTIALS_PSW') }}"
+    container_port: 8090
+    host_port: 8080
     
   tasks:
     - name: Build Docker image
@@ -17,11 +17,6 @@
           dockerfile: Dockerfile
         source: build
         state: present
-
-    - name: Log in to Docker Hub
-      community.docker.docker_login:
-        username: "{{ dockerhub_user }}"
-        password: "{{ dockerhub_password }}"
 
     - name: Push Docker image to Docker Hub
       community.docker.docker_image:
