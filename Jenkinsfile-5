@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        ansiblePlaybook: 'docker_deploy4.yaml',
+                        Playbook: 'docker_deploy4.yaml',
                         inventory: '/etc/ansible/hosts'
                     }
                 }
