@@ -22,13 +22,14 @@ pipeline {
                 sh 'mvn package'
             }
         }
-        stage('Docker Login') {
-            steps { // This outer 'steps' block is correct
+        tage('Docker Login') {
+            steps {
                 withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    sh "docker login -u ${DOCKER_USERNAME} --password-stdin <<< ${DOCKER_PASSWORD}"
-                } // No extra 'steps' block needed here
+                    sh "docker login -u '$DOCKER_USERNAME' --password '$DOCKER_PASSWORD'" // More secure
+                }
             }
         }
+
         stage('Build and publish with Ansible') {
             steps {
                 script {
