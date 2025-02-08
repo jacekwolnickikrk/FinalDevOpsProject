@@ -1,6 +1,6 @@
 ---
 - name: Build and Deploy Docker Image
-  hosts: knode1
+  hosts: [knode1]
   become: true
   vars:
     docker_image_name: "jacekcracow/abctechnologies-latest-with-ansible"
