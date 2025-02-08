@@ -1,0 +1,30 @@
+---
+- hosts: knode1
+  become: true
+  vars:
+    docker_image_name: "jacekcracow/abctechnologies-latest-with-ansible"
+    build_number: "{{ lookup('env', 'BUILD_NUMBER') }}"
+
+  tasks:
+    - name: Build simple Docker image
+      community.docker.docker_image:
+        name: "{{ docker_image_name }}:{{ build_number }}"
+        build:
+          path: .  # This sets the build context
+          dockerfile: Dockerfile
+        source: build
+        state: present
+
+    - name: Push Docker image to Docker Hub
+      community.docker.docker_image:
+        name: "{{ docker_image_name }}:{{ build_number }}"
+        state: pushed
+
+    - name: Run a Docker container
+      community.docker.docker_container:
+        name: abctechnologies-container
+        image: "{{ docker_image_name }}:{{ build_number }}"  # Use the same image name
+        state: started
+        ports:
+          - "8080:80"
+        restart_policy: unless-stopped
