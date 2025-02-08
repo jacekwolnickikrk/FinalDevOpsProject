@@ -23,10 +23,12 @@ pipeline {
             }
         }
          stage('Docker Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
+    steps {
+        withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            sh "docker login -u ${DOCKER_USERNAME} --password-stdin <<< ${DOCKER_PASSWORD}"
         }
+    }
+}
         stage('Build and publish with Ansible') {
             steps {
                 script {
