@@ -1,0 +1,56 @@
+/* Second pipeline,  Task 3,  step 1 */
+
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
+    }
+    stages {
+        stage('Compile') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER} .'
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                sh 'docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER}'
+            }
+        }
+       stage('Build and publish with Ansible') {
+            steps {
+                script {
+                    sshagent(credentials: ['ansible-ssh-key']) {
+                        ansiblePlaybook playbook: 'docker-deploy7.yaml', 
+                        inventory: '/etc/ansible/hosts',
+                        credentialsId: 'jacek-docker',
+                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}'
+      -e 'docker_password=${env.DOCKER_PASSWORD}'"
+                    }
+                }
+            }
+        }
+    }
+}
