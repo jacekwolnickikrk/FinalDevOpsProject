@@ -1,5 +1,3 @@
-/* pipeline,  Task 4,  step 2*/
-
 pipeline {
     agent any
     tools {
@@ -27,17 +25,17 @@ pipeline {
         stage('Docker Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-           
-        stage('Build and publish with Ansible') {
-      steps {
-        script {
-          withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-              ansiblePlaybook: 'docker_deploy4.yaml'
-                inventory: '/etc/ansible/hosts'
-            
-          }
+            }
         }
-      }
+        stage('Build and publish with Ansible') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        ansiblePlaybook: 'docker_deploy4.yaml',
+                        inventory: '/etc/ansible/hosts'
+                    }
+                }
+            }
+        }
     }
-  }
 }
