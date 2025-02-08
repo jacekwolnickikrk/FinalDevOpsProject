@@ -22,21 +22,21 @@ pipeline {
                 sh 'mvn package'
             }
         }
-         stage('Docker Login') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-            sh "docker login -u ${DOCKER_USERNAME} --password-stdin <<< ${DOCKER_PASSWORD}"
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh "docker login -u ${DOCKER_USERNAME} --password-stdin <<< ${DOCKER_PASSWORD}"
+                }
+            } // Closing brace added here
         }
-    }
-}
         stage('Build and publish with Ansible') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        ansiblePlaybook([
-                            playbook: 'docker_deploy4.yaml',
-                            inventory: '/etc/ansible/hosts'
-                        ])
+                    sshagent(credentials: ['ansible-ssh-key']) {
+                        ansiblePlaybook playbook: 'docker_deploy4.yaml',
+                        inventory: '/etc/ansible/hosts',
+                        credentialsId: 'DockerCredentials',
+                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'"
                     }
                 }
             }
