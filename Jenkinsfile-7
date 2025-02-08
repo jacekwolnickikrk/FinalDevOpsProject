@@ -1,4 +1,4 @@
-/* Second pipeline,  Task 3,  step 1 */
+/* Second pipeline, Task 3, step 1 */
 
 pipeline {
     agent any
@@ -39,15 +39,14 @@ pipeline {
                 sh 'docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER}'
             }
         }
-       stage('Build and publish with Ansible') {
+        stage('Build and publish with Ansible') {
             steps {
                 script {
                     sshagent(credentials: ['ansible-ssh-key']) {
-                        ansiblePlaybook playbook: 'docker-deploy7.yaml', 
+                        ansiblePlaybook playbook: 'docker-deploy7.yaml',
                         inventory: '/etc/ansible/hosts',
                         credentialsId: 'jacek-docker',
-                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}'
-      -e 'docker_password=${env.DOCKER_PASSWORD}'"
+                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'"
                     }
                 }
             }
