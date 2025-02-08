@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER} .'
+                sh 'docker build -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER}.'
             }
         }
         stage('Docker Login') {
@@ -46,7 +46,7 @@ pipeline {
                         ansiblePlaybook playbook: 'docker-deploy7.yaml',
                         inventory: '/etc/ansible/hosts',
                         credentialsId: 'jacek-docker',
-                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'" // Removed -u and -k
+                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'" // Removed -u and -k!!!
                     }
                 }
             }
