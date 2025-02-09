@@ -8,12 +8,16 @@
         password: "{{ lookup('env', 'DOCKER_PASSWORD') }}"
         registry: "https://index.docker.io/v1/"
 
-    # ... rest of your playbook
-
     - name: Docker Pull (Optional)
       docker_image:
         name: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
         source: pull
+  
+    - name: Docker Push
+      docker_image:
+        name: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
+        push: yes # This is the key to pushing the image
+
 
     - name: Docker Run
       docker_container:
