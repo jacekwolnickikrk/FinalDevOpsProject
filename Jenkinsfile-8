@@ -19,13 +19,13 @@ pipeline {
                 sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
             }
         }
-        stage('Build and Deploy with Ansible') {
+      stage('Build and Deploy with Ansible') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'),
-                                     sshUserPrivateKey(credentialsId: 'ansible-ssh-key', usernameVariable: 'SSH_USER')]) {
+                                     sshUserPrivateKey(credentialsId: 'ansible-ssh-key')]) { // No keyVariable here
 
-                        def privateKey = credentials('ansible-ssh-key').privateKey.toString() // Convert to String
+                        def privateKey = env.SSH_PRIVATE_KEY // Access from env
 
                         sshagent([privateKey]) {
                             sh """
