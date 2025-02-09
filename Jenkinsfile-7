@@ -6,7 +6,7 @@ pipeline {
         maven 'maven'
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker') // This only retrieves the ID, not the actual credentials
     }
     stages {
         stage('Compile') {
@@ -26,27 +26,30 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER} .'
+                sh "docker build -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER} ." // Use double quotes for variable interpolation
             }
         }
         stage('Docker Login') {
             steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'DOCKERHUB_CREDENTIALS_USR', passwordVariable: 'DOCKERHUB_CREDENTIALS_PSW')]) { // Correct way to use credentials
+                    sh "echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin" // Escape $ for shell
+                }
             }
         }
         stage('Docker Push') {
             steps {
-                sh 'docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER}'
+                sh "docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER}" // Use double quotes for variable interpolation
             }
         }
         stage('Build and publish with Ansible') {
             steps {
                 script {
-                    sshagent(credentials: ['ansible-ssh-key']) { // Use sshagent for SSH Key
-                        ansiblePlaybook playbook: 'docker-deploy7.yaml',
-                        inventory: 'inventory.ini',  // Correct path to your inventory
-                        // REMOVE -u vagrant !!!  This is the source of your sshpass error
-                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'" // For Docker Hub
+                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        ansiblePlaybook(
+                            playbook: 'docker_deploy4.yaml', // Correct property name
+                            inventory: '/etc/ansible/hosts',
+                            extraVars: "docker_username=${USERNAME} docker_password=${PASSWORD}" // Simplified extra vars
+                        )
                     }
                 }
             }
