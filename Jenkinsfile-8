@@ -27,7 +27,7 @@ pipeline {
                             credentialsId: 'ansible-ssh-key', 
                             disableHostKeyChecking: true, 
                             installation: 'ansible', 
-                            inventory: 'knode1.inve', 
+                            inventory: 'knode1.inv', 
                             playbook: 'docker-deploy8.yml', 
                             vaultTmpPath: ''
                         )
