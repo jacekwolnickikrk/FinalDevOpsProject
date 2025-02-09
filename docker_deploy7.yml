@@ -12,7 +12,7 @@
         build:
           path: .  # This sets the build context
           dockerfile: Dockerfile
-        source: build
+        source: build  # Explicitly specify source: build
         state: present
 
     - name: Push Docker image to Docker Hub
@@ -23,7 +23,7 @@
     - name: Run a Docker container
       community.docker.docker_container:
         name: abctechnologies-container
-        image: "{{ docker_image_name }}:{{ build_number }}"  # Use the same image name
+        image: "{{ docker_image_name }}:{{ build_number }}"
         state: started
         ports:
           - "8080:80"
