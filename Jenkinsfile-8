@@ -23,14 +23,13 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        ansiblePlaybook(
-                            playbook: 'docker_deploy8.yaml',
-                            inventory: 'knode1.inv',
-                            extraVars: [
-                                build_number: BUILD_NUMBER,
-                                docker_username: USERNAME,
-                                docker_password: PASSWORD
-                            ]
+                        ansiblePlaybook( // Correct: Closing curly brace
+                            credentialsId: 'ansible-ssh-key', 
+                            disableHostKeyChecking: true, 
+                            installation: 'ansible', 
+                            inventory: 'knode1.inve', 
+                            playbook: 'docker-deploy8.yml', 
+                            vaultTmpPath: ''
                         )
                     }
                 }
