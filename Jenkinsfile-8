@@ -1,0 +1,40 @@
+/* Second pipeline, Task 3, step 1 */
+
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker') // Only retrieves the ID
+    }
+    stages {
+        stage('Maven build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER}.'
+            }
+        }
+        stage('Build and Deploy with Ansible') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        ansiblePlaybook(
+                            playbook: 'docker_deploy8.yaml',
+                            inventory: '/etc/ansible/hosts',
+                            extraVars: [
+                                build_number: BUILD_NUMBER,
+                                docker_username: USERNAME,
+                                docker_password: PASSWORD
+                            ]
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
