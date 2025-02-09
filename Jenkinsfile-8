@@ -6,7 +6,7 @@ pipeline {
         maven 'maven'
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('jacek-docker') // Only retrieves the ID
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker') 
     }
     stages {
         stage('Maven build') {
@@ -25,7 +25,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         ansiblePlaybook(
                             playbook: 'docker_deploy8.yaml',
-                            inventory: '/etc/ansible/hosts',
+                            inventory: 'knode1.inv',
                             extraVars: [
                                 build_number: BUILD_NUMBER,
                                 docker_username: USERNAME,
