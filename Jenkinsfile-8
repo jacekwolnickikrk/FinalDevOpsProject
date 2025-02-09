@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER}.'
+                sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
             }
         }
         stage('Build and Deploy with Ansible') {
