@@ -23,9 +23,12 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'),
-                                     sshUserPrivateKey(credentialsId: 'ansible-ssh-key', keyVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'SSH_USER')]) { // Use sshUserPrivateKey
+                                     sshUserPrivateKey(credentialsId: 'ansible-ssh-key', usernameVariable: 'SSH_USER')]) {
 
-                        sshagent([SSH_PRIVATE_KEY]) {
+                        // Access SSH key directly from the credential object.
+                        def privateKey = credentials('ansible-ssh-key').privateKey
+
+                        sshagent([privateKey]) {
                             sh """
                                 ssh -o StrictHostKeyChecking=no \$SSH_USER@kmaster "ansible-playbook /home/jacek/ansible/docker-deploy8.yml -i /home/jacek/ansible/hosts -e build_number=${BUILD_NUMBER} -e docker_username=\${USERNAME} -e docker_password=\${PASSWORD}"
                             """
