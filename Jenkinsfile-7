@@ -39,14 +39,16 @@ pipeline {
                 sh 'docker push jacekcracow/abctechnologies-latest:${BUILD_NUMBER}'
             }
         }
-      stage('Build and publish with Ansible') {
-    steps {
-        script {
-            sshagent(credentials: ['ansible-ssh-key']) { // Use sshagent for SSH Key
-                ansiblePlaybook playbook: 'docker-deploy7.yaml',
-                inventory: 'inventory.ini',  // Correct path to your inventory
-                // REMOVE -u vagrant !!!  This is the source of your sshpass error
-                extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'" // For Docker Hub
+        stage('Build and publish with Ansible') {
+            steps {
+                script {
+                    sshagent(credentials: ['ansible-ssh-key']) { // Use sshagent for SSH Key
+                        ansiblePlaybook playbook: 'docker-deploy7.yaml',
+                        inventory: 'inventory.ini',  // Correct path to your inventory
+                        // REMOVE -u vagrant !!!  This is the source of your sshpass error
+                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'" // For Docker Hub
+                    }
+                }
             }
         }
     }
