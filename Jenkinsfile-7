@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh "docker build -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER} ." // Double quotes for interpolation
+                sh "docker build . -t jacekcracow/abctechnologies-latest:${BUILD_NUMBER}" // Double quotes for interpolation
             }
         }
         stage('Docker Login') {
