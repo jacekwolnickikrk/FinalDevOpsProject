@@ -19,15 +19,15 @@ pipeline {
                 sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
             }
         }
-        stage('Build and Deploy with Ansible') {
+         stage('Build and Deploy with Ansible') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'),
-                                     string(credentialsId: 'ansible-ssh-key', variable: 'SSH_PRIVATE_KEY')]) {  // Store SSH key as a string
+                                     sshUserPrivateKey(credentialsId: 'ansible-ssh-key', keyVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'SSH_USER')]) { // Use sshUserPrivateKey
 
-                        sshagent([SSH_PRIVATE_KEY]) { // Use sshagent step
+                        sshagent([SSH_PRIVATE_KEY]) {
                             sh """
-                                ssh -o StrictHostKeyChecking=no jacek@kmaster "ansible-playbook /home/jacek/ansible/docker-deploy8.yml -i /home/jacek/ansible/hosts -e build_number=${BUILD_NUMBER} -e docker_username=\${USERNAME} -e docker_password=\${PASSWORD}"
+                                ssh -o StrictHostKeyChecking=no \$SSH_USER@kmaster "ansible-playbook /home/jacek/ansible/docker-deploy8.yml -i /home/jacek/ansible/hosts -e build_number=${BUILD_NUMBER} -e docker_username=\${USERNAME} -e docker_password=\${PASSWORD}"
                             """
                         }
                     }
