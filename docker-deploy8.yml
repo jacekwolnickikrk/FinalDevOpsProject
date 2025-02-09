@@ -1,28 +1,28 @@
 ---
-- hosts: knode1  # Define the target host (knode1)
-  become: true # Required for docker commands
-
-  vars:
-    docker_image: jacekcracow/abctechnologies-latest:{{ build_number }} # Use a variable for the image tag
-    docker_port: 8090
+- hosts: all # Or specify your host group/name from the inventory
+  become: true # Required for Docker commands
 
   tasks:
     - name: Docker Login
       docker_login:
-        username: "{{ docker_username }}" # Provided via extra vars from Jenkins
-        password: "{{ docker_password }}" # Provided via extra vars from Jenkins
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
         registry: "https://index.docker.io/v1/" # Explicitly define the registry
+
+    - name: Docker Pull (Optional)
+      docker_image:
+        name: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
+        source: pull
 
     - name: Docker Run
       docker_container:
-        name: abctechnologies-container # Give the container a name
-        image: "{{ docker_image }}"
+        name: abctechnologies-container
+        image: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
         ports:
-          - "{{ docker_port }}:8080" # Map host port to container port
-        detach: yes # Run in detached mode
-        remove: yes # Remove container on stop
-        state: started # Ensure container is started
-
+          - "8090:8080"  # Correct port mapping
+        detach: yes
+        remove: yes
+        state: started
 
     - name: Docker Logout
       docker_logout:
