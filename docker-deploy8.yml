@@ -1,13 +1,14 @@
 ---
-- hosts: all # Or specify your host group/name from the inventory
-  become: true # Required for Docker commands
-
+- hosts: all
+  become: true
   tasks:
     - name: Docker Login
       docker_login:
-        username: "{{ docker_username }}"
-        password: "{{ docker_password }}"
-        registry: "https://index.docker.io/v1/" # Explicitly define the registry
+        username: "{{ lookup('env', 'DOCKER_USERNAME') }}"
+        password: "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+        registry: "https://index.docker.io/v1/"
+
+    # ... rest of your playbook
 
     - name: Docker Pull (Optional)
       docker_image:
