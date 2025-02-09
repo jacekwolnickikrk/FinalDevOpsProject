@@ -42,16 +42,17 @@ pipeline {
             }
         }
         stage('Build and publish with Ansible') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        ansiblePlaybook(
-                            playbook: 'docker_deploy4.yaml', // Correct property name
-                            inventory: '/etc/ansible/hosts',
-                            extraVars: "docker_username=${USERNAME} docker_password=${PASSWORD}" // Simplified extra vars
-                        )
-                    }
-                }
+    steps {
+        script {
+            withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                ansiblePlaybook(
+                    playbook: 'docker_deploy4.yaml',
+                    inventory: '/etc/ansible/hosts',
+                    extraVars: [  // Use a Map for extraVars
+                        docker_username: USERNAME,  // Correct syntax for Map
+                        docker_password: PASSWORD
+                    ]
+                )
             }
         }
     }
