@@ -40,16 +40,16 @@ pipeline {
             }
         }
         stage('Build and publish with Ansible') {
-            steps {
-                script {
-                    sshagent(credentials: ['ansible-ssh-key']) {
-                        ansiblePlaybook playbook: 'docker-deploy7.yaml',
-                        inventory: '/etc/ansible/hosts',
-                        credentialsId: 'jacek-docker',
-                        extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'"
-                    }
-                }
+    steps {
+        script {
+            sshagent(credentials: ['ansible-ssh-key']) {
+                ansiblePlaybook playbook: 'docker-deploy7.yaml',
+                inventory: '/etc/ansible/hosts',
+                credentialsId: 'jacek-docker', // This is for Docker Hub credentials, not Ansible SSH
+                extras: "-e 'docker_username=${env.DOCKER_USERNAME}' -e 'docker_password=${env.DOCKER_PASSWORD}'"
             }
         }
     }
+}
+}
 }
