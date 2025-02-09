@@ -22,15 +22,12 @@ pipeline {
         stage('Build and Deploy with Ansible') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        ansiblePlaybook( // Correct: Closing curly brace
-                            credentialsId: 'ansible-ssh-key', 
-                            disableHostKeyChecking: true, 
-                            installation: 'ansible', 
-                            inventory: 'knode1.inv', 
-                            playbook: 'docker-deploy8.yml', 
-                            vaultTmpPath: ''
-                        )
+                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'),
+                                      sshkey(credentialsId: 'ansible-ssh-key', keyVariable: 'SSH_PRIVATE_KEY')]) {
+
+                        sh """
+                            ssh -i "\$SSH_PRIVATE_KEY" -o StrictHostKeyChecking=no jacek@kmaster "ansible-playbook /home/jacek/ansible/docker-deploy8.yml -i /home/jacek/ansible/hosts -e build_number=${BUILD_NUMBER} -e docker_username=\${USERNAME} -e docker_password=\${PASSWORD}"
+                        """
                     }
                 }
             }
