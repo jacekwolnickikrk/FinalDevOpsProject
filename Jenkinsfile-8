@@ -1,5 +1,3 @@
-/* Second pipeline, Task 3, step 1 */
-
 pipeline {
     agent any
     tools {
@@ -14,21 +12,22 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Docker Build') {
+        stage('Build and publish with Ansible') {
             steps {
-                sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        ansiblePlaybook(
+                            playbook: 'docker_deploy9.yaml',
+                            inventory: '/etc/ansible/hosts',
+                            extraVars: [
+                                docker_username: "${USERNAME}",
+                                docker_password: "${PASSWORD}",
+                                build_number: "${BUILD_NUMBER}"
+                            ]
+                        )
+                    }
+                }
             }
         }
-       stage('Build and publish with Ansible') {
-      steps {
-        script {
-          withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-              ansiblePlaybook: 'docker-dpeloy9.yaml'
-                inventory: '/etc/ansible/hosts'
-               extra_vars: "-e 'docker_username=${USERNAME}' -e 'docker_password=${PASSWORD}' -e 'build_number=${BUILD_NUMBER}'"
-          }
-        }
-      }
     }
-  }
 }
