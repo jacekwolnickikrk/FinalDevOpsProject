@@ -8,6 +8,9 @@
         password: "{{ docker_password }}"
         registry: "https://index.docker.io/v1/"
 
+    - name: Tag Docker Image
+      command: docker tag jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }} jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}
+
     - name: Docker Push
       docker_image:
         name: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
