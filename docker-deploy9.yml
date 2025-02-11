@@ -4,8 +4,8 @@
   tasks:
     - name: Docker Login
       docker_login:
-        username: "{{ lookup('env', 'DOCKER_USERNAME') }}"
-        password: "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
         registry: "https://index.docker.io/v1/"
 
     - name: Docker Push
