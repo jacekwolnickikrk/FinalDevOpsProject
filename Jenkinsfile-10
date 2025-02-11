@@ -17,6 +17,12 @@ pipeline {
                 sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
             }
         }
+        stage('Test permissions for Ansible') {
+            steps {
+                sh('tree $WORKSPACE')
+                sh('which ansible-playbook')
+            }
+        }
         stage('Build and publish with Ansible') {
             steps {
                 script {
