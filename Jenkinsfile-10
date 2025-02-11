@@ -12,7 +12,7 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-      stage('Docker Build') {
+        stage('Docker Build') {
             steps {
                 sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
             }
@@ -22,7 +22,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         ansiblePlaybook(
-                            playbook: 'docker-deploy9.yml',
+                            playbook: 'docker_deploy9.yaml',
                             inventory: '/etc/ansible/hosts',
                             extraVars: [
                                 docker_username: "${USERNAME}",
