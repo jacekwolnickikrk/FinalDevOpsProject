@@ -12,9 +12,7 @@
       command: docker tag jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }} jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}
 
     - name: Docker Push
-      docker_image:
-        name: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
-        push: yes
+      command: docker push jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}
 
     - name: Docker Pull (Optional)
       docker_image:
