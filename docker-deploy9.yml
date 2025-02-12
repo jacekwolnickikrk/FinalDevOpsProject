@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
   connection: local
- # become: true
   tasks:
     - name: Docker Build
       command: docker build -t jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }} .
@@ -22,6 +21,11 @@
         name: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
         source: pull
 
+    - name: Remove Previous Container
+      community.docker.docker_container:
+        name: abctechnologies-container
+        state: absent
+
     - name: Docker Run
       community.docker.docker_container:
         name: abctechnologies-container
@@ -29,7 +33,6 @@
         ports:
           - "8090:8080"
         detach: yes
-        remove: yes
         state: started
 
     - name: Docker Logout
