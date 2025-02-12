@@ -29,7 +29,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         ansiblePlaybook(
                             playbook: 'docker-deploy9.yml',
-                        //    inventory: 'knode1.yml',
+                            inventory: '/etc/ansible/hosts',
                             extraVars: [
                                 docker_username: "${USERNAME}",
                                 docker_password: "${PASSWORD}",
