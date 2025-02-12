@@ -1,5 +1,5 @@
 ---
-- hosts: any
+- hosts: localhost
   become: true
   tasks:
     - name: Docker Build
