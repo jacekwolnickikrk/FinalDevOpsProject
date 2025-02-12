@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  connecrion: local
+  connection: local
   become: true
   tasks:
     - name: Docker Build
