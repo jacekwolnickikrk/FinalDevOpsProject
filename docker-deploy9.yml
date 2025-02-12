@@ -1,5 +1,5 @@
 ---
-- hosts: knode1
+- hosts: any
   become: true
   tasks:
     - name: Docker Build
