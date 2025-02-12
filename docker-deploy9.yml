@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   connection: local
-  become: true
+ # become: true
   tasks:
     - name: Docker Build
       command: docker build -t jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }} .
