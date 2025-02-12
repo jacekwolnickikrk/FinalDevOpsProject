@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Test permissions for Ansible') {
             steps {
-                sh('tree $WORKSPACE')
+              //  sh('tree $WORKSPACE')
                 sh('which ansible-playbook')
             }
         }
