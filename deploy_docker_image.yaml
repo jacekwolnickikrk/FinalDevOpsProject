@@ -6,7 +6,7 @@
   tasks:
     - name: Deploy Kubernetes Deployment
       kubernetes.core.k8s:
-        kubeconfig: ssh://192.168.122.24/home/jacek/.kube/config
+        kubeconfig: /home/jacek/.kube/config
         remote_src: yes
         state: present
         definition:
@@ -42,7 +42,7 @@
 
     - name: Deploy Kubernetes Service
       kubernetes.core.k8s:
-        kubeconfig: ssh://192.168.122.24/home/jacek/.kube/config
+        kubeconfig: /home/jacek/.kube/config
         state: present
         definition:
           apiVersion: v1
