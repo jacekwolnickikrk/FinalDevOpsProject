@@ -41,7 +41,8 @@
                         memory: "256Mi"
 
     - name: Deploy Kubernetes Service
-      k8s:
+      kubernetes.core.k8s:
+        kubeconfig: ssh://192.168.122.24/home/jacek/.kube/config
         state: present
         definition:
           apiVersion: v1
