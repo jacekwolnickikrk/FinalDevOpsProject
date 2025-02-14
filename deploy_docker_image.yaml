@@ -1,6 +1,8 @@
 - name: Deploy Docker image to Kubernetes
   hosts: localhost
   connection: local
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
   tasks:
     - name: Deploy Kubernetes Deployment
       k8s:
