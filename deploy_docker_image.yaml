@@ -1,5 +1,6 @@
 - name: Deploy Docker image to Kubernetes
-  hosts: web1
+  hosts: localhost
+  connection: local
   tasks:
     - name: Deploy Kubernetes Deployment
       k8s:
@@ -29,11 +30,11 @@
                       - containerPort: 8080
                     resources:
                       limits:
-                        cpu: "1" 
-                        memory: "512Mi" 
+                        cpu: "1"
+                        memory: "512Mi"
                       requests:
-                        cpu: "500m" 
-                        memory: "256Mi" 
+                        cpu: "500m"
+                        memory: "256Mi"
 
     - name: Deploy Kubernetes Service
       k8s:
