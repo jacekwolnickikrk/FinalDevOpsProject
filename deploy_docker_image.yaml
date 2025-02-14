@@ -25,7 +25,7 @@
               spec:
                 containers:
                   - name: abc-technologies-container
-                    image: "jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }}"
+                    image: jacekcracow/abctechnologies-latest-with-ansible
                     ports:
                       - containerPort: 8080
                     resources:
