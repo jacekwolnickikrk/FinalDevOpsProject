@@ -6,6 +6,7 @@
   tasks:
     - name: Deploy Kubernetes Deployment
       kubernetes.core.k8s:
+        kubeconfig: /home/jacek/.kube/config
         state: present
         definition:
           apiVersion: apps/v1
