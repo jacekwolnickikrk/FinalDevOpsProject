@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh "docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} ." // Correct command
+                sh "docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} ."
             }
         }
         stage('Docker Push') {
@@ -38,14 +38,14 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sshagent(credentials: ['ansible-ssh-key']) {
+                    sshagent(credentials: ['ansible-ssh-key']) { // ***CRITICAL: Correct credential ID***
                         sh '''
                             echo "Starting SSH Agent..."
-                            eval "$(ssh-agent -s)"
-                            ssh-add /home/vagrant/agent/workspace/pipeline-12@tmp/private_key_8830178948921459587.key // Correct path
+                            eval "$(ssh-agent -s)"  // ***CRITICAL: Start the agent in the correct shell***
+                            echo "SSH_AUTH_SOCK: $SSH_AUTH_SOCK" // Verify agent is running
 
-                            echo "SSH_AUTH_SOCK: $SSH_AUTH_SOCK"
-                            ssh -A vagrant@192.168.122.238 'echo $SSH_AUTH_SOCK'  // CRITICAL TEST
+                            echo "Testing SSH Agent Forwarding..."
+                            ssh -A vagrant@192.168.122.238 'echo $SSH_AUTH_SOCK'  // ***CRITICAL TEST: Check on knode1***
 
                             echo "Running Ansible Playbook..."
                             ansible-playbook deploy_docker_image2.yaml -i /etc/ansible/hosts -e "build_number=${BUILD_NUMBER}"
