@@ -1,0 +1,75 @@
+---
+- name: Deploy Docker image to Kubernetes
+  hosts: knodes
+  become: true  # Run tasks with root privileges on the node
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10  # Python on the knode
+  tasks:
+    - name: Ensure .kube directory exists
+      file:
+        path: /home/jacek/.kube
+        state: directory
+        mode: 0755
+      become: true
+
+    - name: Copy kubeconfig to the node
+      copy:
+        src: /home/jacek/.kube/config # Path on kmaster (control node)
+        dest: /home/jacek/.kube/config # Path on knode (managed node)
+        remote_src: yes  # Copy from control node to managed node
+        mode: 0600
+      become: true
+
+    - name: Deploy Kubernetes Deployment
+      kubernetes.core.k8s:
+        kubeconfig: /home/jacek/.kube/config # Path on knode
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: abc-technologies-deployment
+            namespace: abc-technologies
+            labels:
+              app: abc-technologies
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: abc-technologies
+            template:
+              metadata:
+                labels:
+                  app: abc-technologies
+              spec:
+                containers:
+                  - name: abc-technologies-container
+                    image: jacekcracow/abctechnologies-latest-with-ansible:{{ build_number }} # Use variable
+                    ports:
+                      - containerPort: 8080
+                    resources:
+                      limits:
+                        cpu: "1"
+                        memory: "512Mi"
+                      requests:
+                        cpu: "500m"
+                        memory: "256Mi"
+
+    - name: Deploy Kubernetes Service
+      kubernetes.core.k8s:
+        kubeconfig: /home/jacek/.kube/config # Path on knode
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: abc-technologies-service
+            namespace: abc-technologies
+          spec:
+            selector:
+              app: abc-technologies
+            ports:
+              - protocol: TCP
+                port: 8080  # Port exposed by your application container
+                targetPort: 8080  # Port your application is listening on
+            type: NodePort
