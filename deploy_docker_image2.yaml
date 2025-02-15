@@ -17,7 +17,6 @@
       copy:
         src: /home/jacek/.kube/config  # Path on kmaster
         dest: /home/jacek/.kube/config  # Path on knode
-        remote_src: yes
         mode: 0600
       delegate_to: localhost
       run_once: true
