@@ -36,9 +36,9 @@ pipeline {
                     sshagent(credentials: ['ansible-ssh-key']) {
                         ansiblePlaybook(
                             playbook: 'deploy_docker_image.yaml',
-                            inventory: '/etc/ansible/hosts', // On kmaster
+                            inventory: '/etc/ansible/hosts',
                             extraVars: [
-                                build_number: "${BUILD_NUMBER}" // Pass build number
+                                build_number: "${BUILD_NUMBER}"
                             ]
                         )
                     }
