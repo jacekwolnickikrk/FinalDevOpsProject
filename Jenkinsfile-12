@@ -40,9 +40,16 @@ pipeline {
                 script {
                     sshagent(credentials: ['ansible-ssh-key']) {
                         sh '''
+                            # Add the host key to known_hosts (adjust path if needed)
+                            ssh-keyscan 192.168.122.238 >> /home/vagrant/.ssh/known_hosts  // Or /var/lib/jenkins/.ssh/known_hosts
+
                             eval "$(ssh-agent -s)"
                             echo "SSH_AUTH_SOCK: $SSH_AUTH_SOCK"
-                            ssh -A vagrant@192.168.122.238 'echo $SSH_AUTH_SOCK'
+
+                            echo "Testing SSH Agent Forwarding..."
+                            ssh -A vagrant@192.168.122.238 'echo $SSH_AUTH_SOCK'  // CRITICAL TEST
+
+                            echo "Running Ansible Playbook..."
                             ansible-playbook deploy_docker_image2.yaml -i /etc/ansible/hosts -e "build_number=${BUILD_NUMBER}"
                         '''
                     }
