@@ -7,6 +7,11 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
     }
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Maven build') {
             steps {
                 sh 'mvn clean package'
@@ -14,7 +19,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
+                sh "docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER}."
             }
         }
         stage('Docker Push') {
@@ -33,14 +38,19 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sshagent(credentials: ['ansible-ssh-key']) {
-                        ansiblePlaybook(
-                            playbook: 'deploy_docker_image2.yaml',
-                            inventory: '/etc/ansible/hosts',
-                            extraVars: [
-                                build_number: "${BUILD_NUMBER}"
-                            ]
-                        )
+                    sshagent(credentials: ['ansible-ssh-key']) { // Correct credential ID
+                        sh '''
+                            echo "Starting SSH Agent..."
+                            eval "$(ssh-agent -s)"  // CRITICAL: Start the agent in the correct shell
+                            ssh-add /home/vagrant/agent/workspace/pipeline-12@tmp/private_key_8830178948921459587.key // Add the key (correct path)
+                            echo "SSH_AUTH_SOCK: $SSH_AUTH_SOCK" // Verify agent is running
+
+                            echo "Testing SSH Agent Forwarding..."
+                            ssh -A vagrant@192.168.122.238 'echo $SSH_AUTH_SOCK'  // CRITICAL TEST: Check on knode1
+
+                            echo "Running Ansible Playbook..."
+                            ansible-playbook deploy_docker_image2.yaml -i /etc/ansible/hosts -e "build_number=${BUILD_NUMBER}"
+                        '''
                     }
                 }
             }
