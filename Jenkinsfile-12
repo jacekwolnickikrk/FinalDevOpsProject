@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven'
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('jacek-docker')
+    }
+    stages {
+        stage('Maven build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER} .'
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+                    sh "docker push jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER}"
+                }
+            }
+        }
+        stage('Test permissions for Ansible') {
+            steps {
+                sh('which ansible-playbook')
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    sshagent(credentials: ['ansible-ssh-key']) {
+                        ansiblePlaybook(
+                            playbook: 'deploy_docker_image.yaml',
+                            inventory: '/etc/ansible/hosts', // On kmaster
+                            extraVars: [
+                                build_number: "${BUILD_NUMBER}" // Pass build number
+                            ]
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
