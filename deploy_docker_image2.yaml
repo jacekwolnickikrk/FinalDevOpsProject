@@ -1,6 +1,6 @@
 ---
 - name: Deploy Docker image to Kubernetes
-  hosts: knodes
+  hosts: knode1
   become: true
   vars:
     ansible_python_interpreter: /usr/bin/python3.10
