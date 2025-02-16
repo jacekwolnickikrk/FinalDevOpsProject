@@ -20,12 +20,12 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh '''
-                            sshagent(credentials: ['ansible-ssh-key']) {
-                                ansible-playbook deploy_docker_image2.yaml -i /etc/ansible/hosts -e "build_number=${BUILD_NUMBER}"
+                    sshagent(credentials: ['ansible-ssh-key']) {
+                        sh """
+                            withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                                ansible-playbook deploy_docker_image.yaml -i /etc/ansible/hosts -e "build_number=${BUILD_NUMBER} docker_username=\${USERNAME} docker_password=\${PASSWORD}"
                             }
-                        '''
+                        """
                     }
                 }
             }
