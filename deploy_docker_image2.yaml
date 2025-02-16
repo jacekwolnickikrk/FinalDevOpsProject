@@ -6,9 +6,9 @@
     ansible_python_interpreter: /usr/bin/python3.10
 
   tasks:
-    - name: Ensure .kube directory exists
+    - name: Ensure.kube directory exists
       file:
-        path: /home/jacek/.kube
+        path: "{{ ansible_user_dir }}/.kube"  # Dynamic path - CRUCIAL
         state: directory
         mode: 0755
       become: true
@@ -16,15 +16,15 @@
     - name: Copy kubeconfig to the node
       copy:
         src: /home/jacek/.kube/config  # Path on kmaster
-        dest: /home/jacek/.kube/config  # Path on knode
+        dest: "{{ ansible_user_dir }}/.kube/config"  # Dynamic path - CRUCIAL
         mode: 0600
-      delegate_to: localhost
+      delegate_to: localhost  # Jenkins agent
       run_once: true
       become: true
 
     - name: Deploy Kubernetes Deployment
       kubernetes.core.k8s:
-        kubeconfig: /home/jacek/.kube/config  # Path on knode
+        kubeconfig: "{{ ansible_user_dir }}/.kube/config"  # Dynamic path - CRUCIAL
         state: present
         definition:
           apiVersion: apps/v1
@@ -59,7 +59,7 @@
 
     - name: Deploy Kubernetes Service
       kubernetes.core.k8s:
-        kubeconfig: /home/jacek/.kube/config  # Path on knode
+        kubeconfig: "{{ ansible_user_dir }}/.kube/config"  # Dynamic path - CRUCIAL
         state: present
         definition:
           apiVersion: v1
