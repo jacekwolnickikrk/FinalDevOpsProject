@@ -22,11 +22,9 @@ pipeline {
                 script {
                     sshagent(credentials: ['ansible-ssh-key']) {
                         withCredentials([usernamePassword(credentialsId: 'jacek-docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                            env.DOCKER_IMAGE = "jacekcracow/abctechnologies-latest-with-ansible:${BUILD_NUMBER}"
-                            env.DOCKER_USERNAME = USERNAME
-                            env.DOCKER_PASSWORD = PASSWORD
-
-                            sh "ansible-playbook deploy_docker_image2.yaml -i /etc/ansible/hosts"
+                            sh """
+                                ansible-playbook deploy_docker_image2.yaml -i /etc/ansible/hosts -e "build_number=${BUILD_NUMBER} docker_username=\${USERNAME} docker_password=\${PASSWORD}"
+                            """
                         }
                     }
                 }
