@@ -1,8 +1,0 @@
----
-- hosts: knode1
-  become: true
-  tasks:
-    - name: Ensure a directory exists
-      file:
-        path: /tmp/test_directory
-        state: directory
