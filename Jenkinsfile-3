@@ -1,3 +1,7 @@
+/* Third pipeline,  Task 4
+Integrate Docker host with Ansible. An ansible playbook to create Image and create container.
+Integrate Ansible with Jenkins. Deployment of ansible-playbook. */
+
 pipeline {
     agent any
     tools {
