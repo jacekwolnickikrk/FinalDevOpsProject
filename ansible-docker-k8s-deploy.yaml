@@ -1,3 +1,4 @@
+---
 - name: Build, Push Docker image, and Deploy to Kubernetes
   hosts: all
   become: true
