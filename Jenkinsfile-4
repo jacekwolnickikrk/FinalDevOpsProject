@@ -1,3 +1,12 @@
+/* Forth pipeline,  Task 4, step 2
+  Integrate Docker host with Ansible. Write ansible playbook to create Image and create container.
+Integrate Ansible with Jenkins. Deploy ansible-playbook. CI/CD job to build code on Ansible and deploy it on docker container.
+
+1. Deploy Artifacts on Kubernetes
+2. Write pod, service, and deployment manifest file
+3. Integrate Kubernetes with ansible
+4. Ansible playbook to create deployment and service */
+
 pipeline {
     agent any
     tools {
