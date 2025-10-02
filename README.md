@@ -1,4 +1,3 @@
-```markdown
 # DevOps CI/CD Pipeline: Automated Java Application Deployment
 
 [![Java Maven](https://img.shields.io/badge/App-Java%20Maven-orange.svg)](https://maven.apache.org/)
@@ -19,21 +18,19 @@ This pipeline automates the build, test, containerization, and deployment proces
 
 ```mermaid
 graph LR
-    A[("fa:fa-github GitHub")] -- Commit Trigger --> B(Jenkins);
-    subgraph Jenkins Orchestration
-        B --> C(1. Build/Test<br><i>Maven</i>);
-        C --> D(2. Dockerize);
-        D --> E(3. Push Image);
+    A["GitHub"] -->|"Commit Trigger"| B["Jenkins"]
+    subgraph "Jenkins Orchestration"
+        B --> C["1. Build/Test<br>Maven"]
+        C --> D["2. Dockerize"]
+        D --> E["3. Push Image"]
     end
-    E --> F[(fa:fa-database Docker Hub)];
-    E --> G(4. Deploy);
-    G -.-> H[("fa:fa-dharmachakra Kubernetes Cluster")];
-    
+    E --> F["Docker Hub"]
+    E --> G["4. Deploy"]
+    G -.-> H["Kubernetes Cluster"]
+
     style A fill:#24292e,stroke:#333,stroke-width:2px,color:#fff
     style F fill:#0db7ed,stroke:#333,stroke-width:2px,color:#fff
     style H fill:#326ce5,stroke:#333,stroke-width:2px,color:#fff
-
-```
 *(**Ansible** is used for environment configuration management and provisioning of the underlying infrastructure.)*
 
 ## 🛠 Tech Stack
@@ -81,3 +78,4 @@ To execute this pipeline, the following infrastructure is required:
 - **LinkedIn:** [linkedin.com/in/jacek-wolnicki](https://www.linkedin.com/in/jacek-wolnicki/)
 - **Project Repository:** [https://github.com/jacekwolnickikrk/FinalDevOpsProject](https://github.com/jacekwolnickikrk/FinalDevOpsProject)
 ```
+
