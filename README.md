@@ -1,3 +1,4 @@
+```markdown
 # DevOps CI/CD Pipeline: Automated Java Application Deployment
 
 [![Java Maven](https://img.shields.io/badge/App-Java%20Maven-orange.svg)](https://maven.apache.org/)
@@ -31,6 +32,8 @@ graph LR
     style A fill:#24292e,stroke:#333,stroke-width:2px,color:#fff
     style F fill:#0db7ed,stroke:#333,stroke-width:2px,color:#fff
     style H fill:#326ce5,stroke:#333,stroke-width:2px,color:#fff
+```
+
 *(**Ansible** is used for environment configuration management and provisioning of the underlying infrastructure.)*
 
 ## 🛠 Tech Stack
@@ -78,4 +81,3 @@ To execute this pipeline, the following infrastructure is required:
 - **LinkedIn:** [linkedin.com/in/jacek-wolnicki](https://www.linkedin.com/in/jacek-wolnicki/)
 - **Project Repository:** [https://github.com/jacekwolnickikrk/FinalDevOpsProject](https://github.com/jacekwolnickikrk/FinalDevOpsProject)
 ```
-
