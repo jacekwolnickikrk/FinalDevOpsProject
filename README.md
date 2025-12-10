@@ -9,13 +9,13 @@
   <img src="https://img.shields.io/badge/Grafana-F46800?logo=grafana&logoColor=white&style=for-the-badge" alt="Grafana" />
   <br />
   <img src="https://img.shields.io/badge/Trivy-1904DA?logo=aqua&logoColor=white&style=for-the-badge" alt="Trivy" />
-  <img src="https://img.shields.io/badge/HashiCorp%20Vault-FFEC6E?logo=hashicorp&logoColor=black&style=for-the-badge" alt="HashiCorp Vault" />
+  <img src="https://img.shields.io/badge/HashiCorp_Vault-FFEC6E?logo=hashicorp&logoColor=black&style=for-the-badge" alt="HashiCorp Vault" />
   <br />
   <img src="https://img.shields.io/badge/Terraform-7B42BC?logo=terraform&logoColor=white&style=for-the-badge" alt="Terraform" />
   <img src="https://img.shields.io/badge/YAML-CB171E?logo=yaml&logoColor=white&style=for-the-badge" alt="YAML" />
   <br />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/Shell%20Script-121011?logo=gnubash&logoColor=white&style=for-the-badge" alt="Shell Script" />
+  <img src="https://img.shields.io/badge/Shell_Script-121011?logo=gnubash&logoColor=white&style=for-the-badge" alt="Shell Script" />
 </p>
 
 ---
@@ -370,3 +370,4 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
+
