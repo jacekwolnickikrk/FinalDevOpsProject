@@ -1,6 +1,3 @@
-I'll create a downloadable README.md file for you. Let me package everything into a single, ready-to-use file.
-I'll create a downloadable README.md file for you. Here's the complete file content that you can save directly:
-
 ```markdown
 # 🚀 Production-Grade CI/CD Pipeline for Retail Application
 
@@ -334,3 +331,4 @@ JWT_SECRET=your-jwt-secret
 ![GitHub stars](https://img.shields.io/github/stars/jacekwolnickikrk/FinalDevOpsProject?style=flat-square)
 ![GitHub forks](https://img.shields.io/github/forks/jacekwolnickikrk/FinalDevOpsProject?style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues/jacekwolnickikrk/FinalDevOpsProject?style=flat-square)
+
