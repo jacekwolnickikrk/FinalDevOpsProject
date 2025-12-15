@@ -1,16 +1,39 @@
+# 🚀 Ready-to-Use README.md (Copy Everything Below)
+
 ```markdown
 ## 🛠️ Technology Stack
 
-![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+<p align="center">
+  <!-- CI/CD & DevOps -->
+  <img src="assets/logos/jenkins.svg" width="60" height="60" alt="Jenkins"/>&nbsp;&nbsp;
+  <img src="assets/logos/docker.svg" width="60" height="60" alt="Docker"/>&nbsp;&nbsp;
+  <img src="assets/logos/kubernetes.svg" width="60" height="60" alt="Kubernetes"/>&nbsp;&nbsp;
+  <img src="assets/logos/github.svg" width="60" height="60" alt="GitHub"/>&nbsp;&nbsp;
+  <img src="assets/logos/ansible.svg" width="60" height="60" alt="Ansible"/>
+  <br/>
+  
+  <!-- Build & Runtime -->
+  <img src="assets/logos/maven.svg" width="60" height="60" alt="Maven"/>&nbsp;&nbsp;
+  <img src="assets/logos/java.svg" width="60" height="60" alt="Java"/>&nbsp;&nbsp;
+  <img src="assets/logos/terraform.svg" width="60" height="60" alt="Terraform"/>
+  <br/>
+  
+  <!-- Cloud & Infrastructure -->
+  <img src="assets/logos/aws.svg" width="60" height="60" alt="AWS"/>&nbsp;&nbsp;
+  <img src="assets/logos/ubuntu.svg" width="60" height="60" alt="Ubuntu"/>
+  <br/>
+  
+  <!-- Monitoring -->
+  <img src="assets/logos/prometheus.svg" width="60" height="60" alt="Prometheus"/>&nbsp;&nbsp;
+  <img src="assets/logos/grafana.svg" width="60" height="60" alt="Grafana"/>
+</p>
 
-![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+**Tool Categories:**
+- **CI/CD:** Jenkins, Docker, Kubernetes, GitHub, Ansible
+- **Build:** Maven, Java, Terraform  
+- **Cloud:** AWS, Ubuntu
+- **Monitoring:** Prometheus, Grafana
 
-![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ---
 
 # 🚀 Production-Grade CI/CD Pipeline for Retail Application
@@ -21,7 +44,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen?style=flat-square" alt="Status" />
+  <img src="https://img.shields.io/badge/Status-Production_Ready-brightgreen?style=flat-square" alt="Status" />
   <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License" />
   <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square" alt="Version" />
 </p>
@@ -363,5 +386,3 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
-
-
