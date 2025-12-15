@@ -1,5 +1,3 @@
-# 🚀 Ready-to-Use README.md (Copy Everything Below)
-
 ```markdown
 ## 🛠️ Technology Stack
 
@@ -386,3 +384,4 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
+
