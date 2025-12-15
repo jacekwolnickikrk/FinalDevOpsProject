@@ -1,23 +1,16 @@
 ```markdown
-<p align="center">
-  <img src="https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=white&style=for-the-badge" alt="Jenkins" />
-  <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge" alt="Docker" />
-  <img src="https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes&logoColor=white&style=for-the-badge" alt="Kubernetes" />
-  <img src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white&style=for-the-badge" alt="GitHub" />
-  <br />
-  <img src="https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white&style=for-the-badge" alt="Prometheus" />
-  <img src="https://img.shields.io/badge/Grafana-F46800?logo=grafana&logoColor=white&style=for-the-badge" alt="Grafana" />
-  <br />
-  <img src="https://img.shields.io/badge/Trivy-1904DA?logo=aqua&logoColor=white&style=for-the-badge" alt="Trivy" />
-  <img src="https://img.shields.io/badge/HashiCorp_Vault-FFEC6E?logo=hashicorp&logoColor=black&style=for-the-badge" alt="HashiCorp Vault" />
-  <br />
-  <img src="https://img.shields.io/badge/Terraform-7B42BC?logo=terraform&logoColor=white&style=for-the-badge" alt="Terraform" />
-  <img src="https://img.shields.io/badge/YAML-CB171E?logo=yaml&logoColor=white&style=for-the-badge" alt="YAML" />
-  <br />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/Shell_Script-121011?logo=gnubash&logoColor=white&style=for-the-badge" alt="Shell Script" />
-</p>
+## 🛠️ Technology Stack
 
+![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ---
 
 # 🚀 Production-Grade CI/CD Pipeline for Retail Application
@@ -370,4 +363,5 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
+
 
