@@ -1,33 +1,71 @@
-## 🛠️ Technology Stack
-
+🛠️ Technology Stack
+<table align="center">
+<tr>
+<td align="center" width="120">
+<img src="assets/logos/jenkins.svg" width="65" height="65" alt="Jenkins" />
+<br><strong>Jenkins</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/docker.svg" width="65" height="65" alt="Docker" />
+<br><strong>Docker</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/kubernetes.svg" width="65" height="65" alt="Kubernetes" />
+<br><strong>Kubernetes</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/github.svg" width="65" height="65" alt="GitHub" />
+<br><strong>GitHub</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/ansible.svg" width="65" height="65" alt="Ansible" />
+<br><strong>Ansible</strong>
+</td>
+</tr>
+<tr>
+<td align="center" width="120">
+<img src="assets/logos/maven.svg" width="65" height="65" alt="Maven" />
+<br><strong>Maven</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/java.svg" width="65" height="65" alt="Java" />
+<br><strong>Java</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/aws.svg" width="65" height="65" alt="AWS" />
+<br><strong>AWS</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/ubuntu.svg" width="65" height="65" alt="Ubuntu" />
+<br><strong>Ubuntu</strong>
+</td>
+<td align="center" width="120">
+<!-- Empty cell for alignment -->
+</td>
+</tr>
+<tr>
+<td align="center" width="120">
+<img src="assets/logos/prometheus.svg" width="65" height="65" alt="Prometheus" />
+<br><strong>Prometheus</strong>
+</td>
+<td align="center" width="120">
+<img src="assets/logos/grafana.svg" width="65" height="65" alt="Grafana" />
+<br><strong>Grafana</strong>
+</td>
+<td colspan="3"></td>
+</tr>
+</table>
 <p align="center">
-  <!-- CI/CD & DevOps -->
-  <img src="assets/logos/jenkins.svg" width="60" height="60" alt="Jenkins"/>&nbsp;&nbsp;
-  <img src="assets/logos/docker.svg" width="60" height="60" alt="Docker"/>&nbsp;&nbsp;
-  <img src="assets/logos/kubernetes.svg" width="60" height="60" alt="Kubernetes"/>&nbsp;&nbsp;
-  <img src="assets/logos/github.svg" width="60" height="60" alt="GitHub"/>&nbsp;&nbsp;
-  <img src="assets/logos/ansible.svg" width="60" height="60" alt="Ansible"/>
-  <br/><br/>
-  
-  <!-- Build & Runtime -->
-  <img src="assets/logos/maven.svg" width="60" height="60" alt="Maven"/>&nbsp;&nbsp;
-  <img src="assets/logos/java.svg" width="60" height="60" alt="Java"/>
-  <br/><br/>
-  
-  <!-- Cloud & Infrastructure -->
-  <img src="assets/logos/aws.svg" width="60" height="60" alt="AWS"/>&nbsp;&nbsp;
-  <img src="assets/logos/ubuntu.svg" width="60" height="60" alt="Ubuntu"/>
-  <br/><br/>
-  
-  <!-- Monitoring -->
-  <img src="assets/logos/prometheus.svg" width="60" height="60" alt="Prometheus"/>&nbsp;&nbsp;
-  <img src="assets/logos/grafana.svg" width="60" height="60" alt="Grafana"/>
+<strong>CI/CD:</strong> Jenkins • Docker • Kubernetes • GitHub • Ansible<br>
+<strong>Build:</strong> Maven • Java<br>
+<strong>Cloud:</strong> AWS • Ubuntu<br>
+<strong>Monitoring:</strong> Prometheus • Grafana
 </p>
 
 **Tool Categories:**
-- **CI/CD:** Jenkins, Docker, Kubernetes, GitHub, Ansible
 - **Build:** Maven, Java
 - **Cloud:** AWS, Ubuntu
+- **CI/CD:** GitHub, Jenkins, Docker, Ansible, Kubernetes,
 - **Monitoring:** Prometheus, Grafana
 
 ---
@@ -388,3 +426,4 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
+
