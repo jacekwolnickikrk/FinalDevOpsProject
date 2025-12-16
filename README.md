@@ -84,7 +84,7 @@
 
 ## 📊 CI/CD Pipeline Architecture
 
-![CI/CD Pipeline](assets/cicd-pipeline.png)
+![CI/CD Pipeline](assets/CICD_pipeline.png)
 
 ### Pipeline Overview
 
@@ -423,5 +423,6 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
+
 
 
