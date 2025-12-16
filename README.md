@@ -49,27 +49,32 @@
 
 ---
 
-## 📊 Pipeline Architecture
+## 📊 CI/CD Pipeline Architecture
 
-```mermaid
-graph TD
-    A[Developer Push] --> B[Git Repository]
-    B --> C[Jenkins CI/CD]
-    C --> D[Automated Testing]
-    D --> E[Docker Build]
-    E --> F[Container Registry]
-    F --> G[Kubernetes Deployment]
-    G --> H[Production Environment]
-    
-    I[Monitoring & Logging] --> C
-    J[Security Scanning] --> D
-    K[Infrastructure as Code] --> G
-    
-    style A fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-    style C fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
-    style G fill:#FF9800,stroke:#333,stroke-width:2px,color:#fff
-    style H fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-```
+<p align="center">
+  <img src="assets/images/cicd-pipeline.png" alt="CI/CD Pipeline Architecture" width="900"/>
+</p>
+
+### Pipeline Overview
+
+The pipeline implements a complete **DevOps automation workflow** with the following stages:
+
+1. **Source Control (GitHub)** - Developers commit code to Git repositories
+2. **CI Server (Jenkins)** - Automated build triggers on code commits
+3. **Build Tool (Maven)** - Compiles Java applications and manages dependencies
+4. **Configuration Management (Ansible)** - Manages deployment configurations and orchestrates releases
+5. **Container Registry (Docker Hub)** - Stores and versions container images
+6. **Orchestration (Kubernetes)** - Deploys and manages containerized applications
+7. **Monitoring Stack (Prometheus + Grafana)** - Real-time metrics and visualization
+
+### Key Pipeline Features
+- ✅ **Automated builds** triggered by Git commits
+- ✅ **Containerized deployments** for consistency across environments
+- ✅ **Zero-downtime releases** with Kubernetes rolling updates
+- ✅ **Continuous monitoring** with Prometheus and Grafana
+- ✅ **Infrastructure as Code** with Ansible playbooks
+
+---
 
 ## 🎯 Project Overview
 
@@ -384,4 +389,4 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
-
+```
