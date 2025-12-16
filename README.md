@@ -7,18 +7,17 @@
   <img src="assets/logos/kubernetes.svg" width="60" height="60" alt="Kubernetes"/>&nbsp;&nbsp;
   <img src="assets/logos/github.svg" width="60" height="60" alt="GitHub"/>&nbsp;&nbsp;
   <img src="assets/logos/ansible.svg" width="60" height="60" alt="Ansible"/>
-  <br/>
+  <br/><br/>
   
   <!-- Build & Runtime -->
   <img src="assets/logos/maven.svg" width="60" height="60" alt="Maven"/>&nbsp;&nbsp;
-  <img src="assets/logos/java.svg" width="60" height="60" alt="Java"/>&nbsp;&nbsp;
-  <img src="assets/logos/terraform.svg" width="60" height="60" alt="Terraform"/>
-  <br/>
+  <img src="assets/logos/java.svg" width="60" height="60" alt="Java"/>
+  <br/><br/>
   
   <!-- Cloud & Infrastructure -->
   <img src="assets/logos/aws.svg" width="60" height="60" alt="AWS"/>&nbsp;&nbsp;
   <img src="assets/logos/ubuntu.svg" width="60" height="60" alt="Ubuntu"/>
-  <br/>
+  <br/><br/>
   
   <!-- Monitoring -->
   <img src="assets/logos/prometheus.svg" width="60" height="60" alt="Prometheus"/>&nbsp;&nbsp;
@@ -27,7 +26,7 @@
 
 **Tool Categories:**
 - **CI/CD:** Jenkins, Docker, Kubernetes, GitHub, Ansible
-- **Build:** Maven, Java, Terraform  
+- **Build:** Maven, Java
 - **Cloud:** AWS, Ubuntu
 - **Monitoring:** Prometheus, Grafana
 
@@ -81,7 +80,7 @@ This project demonstrates **production-ready DevOps practices** by implementing 
 - ✅ **Zero-downtime deployments** with Kubernetes rolling updates
 - ✅ **Automated security scanning** integrated into pipeline
 - ✅ **Multi-environment strategy** (Dev → Staging → Production)
-- ✅ **Infrastructure as Code** with Terraform
+- ✅ **Infrastructure as Code** with Ansible
 - ✅ **99.9% uptime** with monitoring and alerting
 
 ---
@@ -96,7 +95,7 @@ This project demonstrates **production-ready DevOps practices** by implementing 
 | **Containerization** | Docker | Application packaging and isolation |
 | **Orchestration** | Kubernetes | Container management and scaling |
 | **Registry** | Docker Hub | Container image storage |
-| **Cloud Platform** | AWS/GCP | Infrastructure hosting |
+| **Cloud Platform** | AWS | Infrastructure hosting |
 | **Monitoring** | Prometheus + Grafana | Performance metrics and alerting |
 
 ### Pipeline Flow Diagram
@@ -177,7 +176,7 @@ stage('Checkout') {
 ```
 
 ### Stage 2: Automated Testing Strategy
-- **Unit Tests**: Jest/Mocha for JavaScript applications
+- **Unit Tests**: JUnit for Java applications
 - **Integration Tests**: API endpoint validation
 - **Security Scanning**: Trivy for container vulnerabilities
 - **Code Quality**: SonarQube integration
@@ -185,17 +184,17 @@ stage('Checkout') {
 ### Stage 3: Container Build & Push
 ```dockerfile
 # Multi-stage Dockerfile for optimization
-FROM node:18-alpine AS builder
+FROM maven:3.8-openjdk-11 AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-FROM node:18-alpine
+FROM openjdk:11-jre-slim
 WORKDIR /app
-COPY --from=builder /app/node_modules ./node_modules
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
+COPY --from=builder /app/target/*.war app.war
+EXPOSE 8080
+CMD ["java", "-jar", "app.war"]
 ```
 
 ### Stage 4: Kubernetes Deployment
@@ -218,7 +217,7 @@ spec:
       - name: retail-app
         image: docker.io/yourusername/retail-app:${BUILD_NUMBER}
         ports:
-        - containerPort: 3000
+        - containerPort: 8080
 ```
 
 ---
@@ -246,8 +245,8 @@ spec:
 ## 🔒 Security Implementation
 
 ### DevSecOps Practices Integrated
-- **Container Image Scanning**: Automated vulnerability assessment
-- **Secret Management**: HashiCorp Vault integration
+- **Container Image Scanning**: Automated vulnerability assessment with Trivy
+- **Secret Management**: Secure credential handling in Jenkins
 - **RBAC**: Role-based access control in Kubernetes
 - **Network Policies**: Micro-segmentation for workload isolation
 - **Audit Logging**: Complete activity tracking
@@ -258,15 +257,16 @@ graph LR
     A[Code Commit] --> B[SAST Scan]
     B --> C[Dependency Check]
     C --> D[Container Scan]
-    D --> E[IaC Scan]
-    E --> F[Deploy Decision]
-    F -->|Pass| G[Proceed]
-    F -->|Fail| H[Block Deployment]
+    D --> E[Deploy Decision]
+    E -->|Pass| F[Proceed to Deploy]
+    E -->|Fail| G[Block Deployment]
     
     style A fill:#FF5722,stroke:#333,stroke-width:2px,color:#fff
-    style G fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
-    style H fill:#F44336,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    style G fill:#F44336,stroke:#333,stroke-width:2px,color:#fff
 ```
+
+**SAST (Static Application Security Testing)** - Scans source code for security vulnerabilities before building containers, catching issues like SQL injection, hardcoded credentials, and insecure configurations early in the pipeline.
 
 ---
 
@@ -332,16 +332,18 @@ JWT_SECRET=your-jwt-secret
 
 ## 📚 Documentation & Learning Resources
 
-### Architecture Decision Records (ADRs)
-- [ADR-001: Jenkins vs GitLab CI Choice](docs/adr-001-jenkins-selection.md)
-- [ADR-002: Kubernetes over Docker Swarm](docs/adr-002-orchestration-choice.md)
-- [ADR-003: Monitoring Stack Selection](docs/adr-003-monitoring-stack.md)
+### Pipeline Components Documentation
+- **Jenkins Pipeline**: [Jenkinsfile Examples](Jenkinsfile-1)
+- **Docker Configuration**: [Dockerfile](Dockerfile)
+- **Ansible Playbooks**: [Deployment Automation](ansible-docker-k8s-deploy.yaml)
+- **Maven Configuration**: [pom.xml](pom.xml)
 
-### Additional Resources
-- [Pipeline Troubleshooting Guide](docs/troubleshooting.md)
-- [Security Best Practices](docs/security-guidelines.md)
-- [Performance Optimization Tips](docs/performance-tuning.md)
-- [Disaster Recovery Procedures](docs/disaster-recovery.md)
+### Best Practices Implemented
+- Immutable infrastructure with containers
+- GitOps workflow for deployments
+- Automated rollback on failures
+- Blue-green deployment strategy
+- Comprehensive logging and monitoring
 
 ---
 
@@ -352,7 +354,7 @@ JWT_SECRET=your-jwt-secret
 - [ ] **Advanced monitoring** with ML-based anomaly detection
 - [ ] **GitOps workflow** with ArgoCD implementation
 - [ ] **Service mesh** integration with Istio
-- [ ] **Advanced security** with Falco runtime protection
+- [ ] **Advanced security** with runtime protection
 
 ### How to Contribute
 1. Fork the repository
