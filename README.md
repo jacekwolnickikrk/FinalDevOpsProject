@@ -1,4 +1,3 @@
-```markdown
 ## 🛠️ Technology Stack
 
 <p align="center">
@@ -51,9 +50,7 @@
 
 ## 📊 CI/CD Pipeline Architecture
 
-<p align="center">
-  <img src="assets/images/cicd-pipeline.png" alt="CI/CD Pipeline Architecture" width="900"/>
-</p>
+![CI/CD Pipeline](assets/cicd-pipeline.png)
 
 ### Pipeline Overview
 
@@ -389,4 +386,3 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
-```
