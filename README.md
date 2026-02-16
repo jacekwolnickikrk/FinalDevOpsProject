@@ -53,11 +53,11 @@
 </tr>
 </table>
 <p align="center">
-<strong>Cloud:</strong> AWS • Ubuntu<br>
+<strong>Cloud:</strong> AWS • Liunx (Ubuntu)<br>
 <strong>Build:</strong> Maven • Java<br>
 <strong>CI/CD:</strong> GitHub • Jenkins • Docker • Ansible • Kubernetes<br>
 <strong>Monitoring:</strong> Prometheus • Grafana
-</p>
+</p> 
 
 **Tool Categories:**
 - **Cloud:** AWS, Ubuntu
@@ -423,6 +423,7 @@ This project demonstrates competencies aligned with:
 - **Certified Kubernetes Administrator (CKA)**
 - **Docker Certified Associate**
 - **Jenkins Engineer Certification**
+
 
 
 
